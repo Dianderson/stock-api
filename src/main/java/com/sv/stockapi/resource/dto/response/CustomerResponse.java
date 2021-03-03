@@ -1,6 +1,6 @@
 package com.sv.stockapi.resource.dto.response;
 
-import com.sv.stockapi.repository.model.Credential;
+import com.sv.stockapi.repository.model.Role;
 import com.sv.stockapi.repository.model.Customer;
 import lombok.Data;
 
@@ -13,14 +13,14 @@ public class CustomerResponse {
     private String name;
     private String cpf;
     @Enumerated(EnumType.STRING)
-    private Enum<Credential> credential;
+    private Enum<Role> role;
 
     public static CustomerResponse of(Customer customer) {
         var customerResponse = new CustomerResponse();
         customerResponse.setId(customer.getId());
         customerResponse.setName(customer.getName());
         customerResponse.setCpf(customer.getCpf());
-        customerResponse.setCredential(customer.getCredential());
+        customerResponse.setRole(customer.getRole());
         return customerResponse;
     }
 }

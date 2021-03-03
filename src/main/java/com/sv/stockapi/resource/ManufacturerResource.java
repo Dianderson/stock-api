@@ -1,5 +1,6 @@
 package com.sv.stockapi.resource;
 
+import com.sv.stockapi.repository.model.Manufacturer;
 import com.sv.stockapi.resource.dto.request.manufacturer.CreateManufacturerRequest;
 import com.sv.stockapi.resource.dto.request.manufacturer.UpdateManufacturerRequest;
 import com.sv.stockapi.resource.dto.response.ManufacturerResponse;
@@ -20,13 +21,11 @@ public class ManufacturerResource {
     private final ManufacturerService manufacturerService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<ManufacturerResponse> findAll() {
         return manufacturerService.findAll();
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public ManufacturerResponse findById(@PathVariable Long id) {
         return manufacturerService.findById(id);
     }
@@ -34,13 +33,13 @@ public class ManufacturerResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ManufacturerResponse save(@RequestBody @Valid CreateManufacturerRequest request) {
-        return manufacturerService.save(CreateManufacturerRequest.of(request));
+        return manufacturerService.save(Manufacturer.of(request));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ManufacturerResponse update(@PathVariable Long id, @RequestBody @Valid UpdateManufacturerRequest request) {
-        return manufacturerService.update(id, UpdateManufacturerRequest.of(request));
+        return manufacturerService.update(id, Manufacturer.of(request));
     }
 
     @DeleteMapping("/{id}")

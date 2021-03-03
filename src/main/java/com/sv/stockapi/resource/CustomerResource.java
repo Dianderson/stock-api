@@ -1,5 +1,6 @@
 package com.sv.stockapi.resource;
 
+import com.sv.stockapi.repository.model.Customer;
 import com.sv.stockapi.resource.dto.request.customer.CreateCustomerRequest;
 import com.sv.stockapi.resource.dto.request.customer.UpdateCustomerRequest;
 import com.sv.stockapi.resource.dto.response.CustomerResponse;
@@ -20,13 +21,11 @@ public class CustomerResource {
     private final CustomerService customerService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<CustomerResponse> findAll() {
         return customerService.findAll();
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public CustomerResponse findById(@PathVariable Long id) {
         return customerService.findById(id);
     }
@@ -34,13 +33,13 @@ public class CustomerResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerResponse save(@RequestBody @Valid CreateCustomerRequest request) {
-        return customerService.save(CreateCustomerRequest.of(request));
+        return customerService.save(Customer.of(request));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerResponse update(@PathVariable Long id, @RequestBody @Valid UpdateCustomerRequest request) {
-        return customerService.update(id, UpdateCustomerRequest.of(request));
+        return customerService.update(id, Customer.of(request));
     }
 
     @DeleteMapping("/{id}")

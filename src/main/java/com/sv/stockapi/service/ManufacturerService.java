@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class ManufacturerService {
 
     private final ManufacturerRepository manufacturerRepository;
+    private final AddressService addressService;
 
     public List<ManufacturerResponse> findAll() {
         return manufacturerRepository.findAll().stream().map(ManufacturerResponse::of).collect(Collectors.toList());
@@ -47,14 +48,14 @@ public class ManufacturerService {
         if (!manufacturer.getEmail().isEmpty()) {
             toBeUpdated.setEmail(manufacturer.getEmail());
         }
-        if (manufacturer.getContact().isEmpty()) {
+        if (!manufacturer.getContact().isEmpty()) {
             toBeUpdated.setContact(manufacturer.getContact());
         }
-        if (manufacturer.getTelephone().isEmpty()) {
+        if (!manufacturer.getTelephone().isEmpty()) {
             toBeUpdated.setTelephone(manufacturer.getTelephone());
         }
         if (manufacturer.getAddress() != null) {
-            toBeUpdated.setAddress(manufacturer.getAddress());
+            addressService.update(toBeUpdated.getId(), manufacturer.getAddress());
         }
         return ManufacturerResponse.of(manufacturerRepository.save(toBeUpdated));
     }

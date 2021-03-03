@@ -1,8 +1,7 @@
 package com.sv.stockapi.repository.model;
 
-public enum Credential {
+public enum Role {
     MASTER,
     USER,
-    VIEWER,
-    NOTCHANGED;
+    VIEWER
 }

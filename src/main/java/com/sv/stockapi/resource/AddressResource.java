@@ -1,5 +1,6 @@
 package com.sv.stockapi.resource;
 
+import com.sv.stockapi.repository.model.Address;
 import com.sv.stockapi.resource.dto.request.address.CreateAddressRequest;
 import com.sv.stockapi.resource.dto.request.address.UpdateAddressRequest;
 import com.sv.stockapi.resource.dto.response.AddressResponse;
@@ -19,13 +20,11 @@ public class AddressResource {
     private final AddressService addressService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<AddressResponse> findAll() {
         return addressService.findAll();
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public AddressResponse findById(@PathVariable Long id) {
         return addressService.findById(id);
     }
@@ -33,13 +32,13 @@ public class AddressResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AddressResponse save(@RequestBody @Valid CreateAddressRequest request) {
-        return addressService.save(CreateAddressRequest.of(request));
+        return addressService.save(Address.of(request));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AddressResponse update(@PathVariable Long id, @RequestBody @Valid UpdateAddressRequest request) {
-        return addressService.update(id, UpdateAddressRequest.of(request));
+        return addressService.update(id, Address.of(request));
     }
 
     @DeleteMapping("/{id}")

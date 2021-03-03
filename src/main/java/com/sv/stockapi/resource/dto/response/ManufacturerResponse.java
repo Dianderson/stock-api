@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ManufacturerResponse {
+    private Long id;
     private String name;
     private String cnpj;
     private String email;
@@ -15,6 +16,7 @@ public class ManufacturerResponse {
 
     public static ManufacturerResponse of(Manufacturer manufacturer) {
         var manufacturerResponse = new ManufacturerResponse();
+        manufacturerResponse.setId(manufacturer.getId());
         manufacturerResponse.setName(manufacturer.getName());
         manufacturerResponse.setCnpj(manufacturer.getCnpj());
         manufacturerResponse.setEmail(manufacturer.getEmail());

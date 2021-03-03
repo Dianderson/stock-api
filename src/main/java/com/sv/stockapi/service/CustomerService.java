@@ -46,8 +46,8 @@ public class CustomerService {
         if (!customer.getPassword().isEmpty()) {
             toBeUpdated.setPassword(customer.getPassword());
         }
-        if (customer.getCredential() != null) {
-            toBeUpdated.setCredential(customer.getCredential());
+        if (customer.getRole() != null) {
+            toBeUpdated.setRole(customer.getRole());
         }
         return CustomerResponse.of(customerRepository.save(toBeUpdated));
     }

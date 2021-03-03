@@ -1,12 +1,13 @@
 package com.sv.stockapi.repository.model;
 
+import com.sv.stockapi.resource.dto.request.stock.CreateStockRequest;
+import com.sv.stockapi.resource.dto.request.stock.UpdateStockRequest;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Entity
@@ -16,13 +17,13 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @OneToOne
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
     private Supply supply;
 
-    @NotBlank
-    @OneToMany
-    private List<Supplier> supplier;
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    private Supplier supplier;
 
     @NotBlank
     private String batch;
@@ -30,10 +31,30 @@ public class Stock {
     @NotNull
     private int quantity;
 
-    @NotBlank
+    @NotNull
     private LocalDate manufactureDate;
 
-    @NotBlank
+    @NotNull
     private LocalDate expirationDate;
 
+    public static Stock of(CreateStockRequest request) {
+        var stock = new Stock();
+        stock.setSupply(request.getSupply());
+        stock.setSupplier(request.getSupplier());
+        stock.setBatch(request.getBatch());
+        stock.setQuantity(request.getQuantity());
+        stock.setManufactureDate(request.getManufactureDate());
+        stock.setExpirationDate(request.getExpirationDate());
+        return stock;
+    }
+
+    public static Stock of(UpdateStockRequest request) {
+        var stock = new Stock();
+        stock.setSupply(request.getSupply());
+        stock.setSupplier(request.getSupplier());
+        stock.setBatch(request.getBatch());
+        stock.setManufactureDate(request.getManufactureDate());
+        stock.setExpirationDate(request.getExpirationDate());
+        return stock;
+    }
 }

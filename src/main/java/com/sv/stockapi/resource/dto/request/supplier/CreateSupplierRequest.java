@@ -1,4 +1,4 @@
-package com.sv.stockapi.resource.dto.request.manufacturer;
+package com.sv.stockapi.resource.dto.request.supplier;
 
 import com.sv.stockapi.repository.model.Address;
 import lombok.Data;
@@ -7,8 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateManufacturerRequest {
-
+public class CreateSupplierRequest {
     @NotBlank
     private String name;
 

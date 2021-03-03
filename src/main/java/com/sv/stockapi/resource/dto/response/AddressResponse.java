@@ -26,17 +26,4 @@ public class AddressResponse {
         addressResponse.setCountry(address.getCountry());
         return addressResponse;
     }
-
-    public static Address of(AddressResponse address) {
-        var addressResponse = new Address();
-        addressResponse.setId(address.getId());
-        addressResponse.setPostalCode(address.getPostalCode());
-        addressResponse.setStreet(address.getStreet());
-        addressResponse.setNumber(address.getNumber());
-        addressResponse.setComplement(address.getComplement());
-        addressResponse.setCity(address.getCity());
-        addressResponse.setState(address.getState());
-        addressResponse.setCountry(address.getCountry());
-        return addressResponse;
-    }
 }
