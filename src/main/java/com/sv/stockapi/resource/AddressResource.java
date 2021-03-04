@@ -6,11 +6,12 @@ import com.sv.stockapi.resource.dto.request.address.UpdateAddressRequest;
 import com.sv.stockapi.resource.dto.response.AddressResponse;
 import com.sv.stockapi.service.AddressService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/address")
@@ -20,8 +21,8 @@ public class AddressResource {
     private final AddressService addressService;
 
     @GetMapping
-    public List<AddressResponse> findAll() {
-        return addressService.findAll();
+    public Page<AddressResponse> findAll(Pageable pageable) {
+        return addressService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

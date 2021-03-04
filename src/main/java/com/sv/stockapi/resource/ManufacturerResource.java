@@ -4,14 +4,15 @@ import com.sv.stockapi.repository.model.Manufacturer;
 import com.sv.stockapi.resource.dto.request.manufacturer.CreateManufacturerRequest;
 import com.sv.stockapi.resource.dto.request.manufacturer.UpdateManufacturerRequest;
 import com.sv.stockapi.resource.dto.response.ManufacturerResponse;
-import com.sv.stockapi.service.AddressService;
 import com.sv.stockapi.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/manufacturer")
@@ -21,8 +22,8 @@ public class ManufacturerResource {
     private final ManufacturerService manufacturerService;
 
     @GetMapping
-    public List<ManufacturerResponse> findAll() {
-        return manufacturerService.findAll();
+    public Page<ManufacturerResponse> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        return manufacturerService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

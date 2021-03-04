@@ -1,28 +1,28 @@
 package com.sv.stockapi.service;
 
-import com.sv.stockapi.error.exception.EntityNotFoundException;
 import com.sv.stockapi.repository.AddressRepository;
 import com.sv.stockapi.repository.model.Address;
 import com.sv.stockapi.resource.dto.response.AddressResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
 public class AddressService {
     private final AddressRepository addressRepository;
 
-    public List<AddressResponse> findAll() {
-        return addressRepository.findAll().stream().map(AddressResponse::of).collect(Collectors.toList());
+    public Page<AddressResponse> findAll(Pageable pageable) {
+        return addressRepository.findAll(pageable).map(AddressResponse::of);
     }
 
     public AddressResponse findById(Long id) {
         return addressRepository.findById(id)
                 .map(AddressResponse::of)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Address with id %s not found", id)));
+                .orElseThrow(() -> new EntityNotFoundException("Address with id " + id + " not found"));
     }
 
     public AddressResponse save(Address address) {
@@ -34,7 +34,8 @@ public class AddressService {
     }
 
     public AddressResponse update(Long id, Address address) {
-        Address toBeUpdated = addressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Address with id %s not found", address.getId())));
+        Address toBeUpdated = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address with id " + id + " not found"));
 
         if (!address.getPostalCode().isBlank()) {
             toBeUpdated.setPostalCode(address.getPostalCode());

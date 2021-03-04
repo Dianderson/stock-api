@@ -1,14 +1,14 @@
 package com.sv.stockapi.service;
 
-import com.sv.stockapi.error.exception.EntityNotFoundException;
 import com.sv.stockapi.repository.StockRepository;
 import com.sv.stockapi.repository.model.Stock;
 import com.sv.stockapi.resource.dto.response.StockResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +18,14 @@ public class StockService {
     private final SupplyService supplyService;
     private final SupplierService supplierService;
 
-    public List<StockResponse> findAll() {
-        return stockRepository.findAll().stream().map(StockResponse::of).collect(Collectors.toList());
+    public Page<StockResponse> findAll(Pageable pageable) {
+        return stockRepository.findAll(pageable).map(StockResponse::of);
     }
 
     public StockResponse findById(Long id) {
         return stockRepository.findById(id)
                 .map(StockResponse::of)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Stock with id %s not found", id)));
+                .orElseThrow(() -> new EntityNotFoundException("Stock with id " + id + " not found"));
     }
 
     public StockResponse save(Stock stock) {
@@ -37,7 +37,8 @@ public class StockService {
     }
 
     public StockResponse update(Long id, Stock stock) {
-        Stock toBeUpdated = stockRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Stock with id %s not found", id)));
+        Stock toBeUpdated = stockRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Stock with id " + id + " not found"));
 
         if (stock.getSupply() != null) {
             supplyService.update(toBeUpdated.getId(), stock.getSupply());
@@ -45,7 +46,7 @@ public class StockService {
         if (stock.getSupplier() != null) {
             supplierService.update(toBeUpdated.getId(), stock.getSupplier());
         }
-        if (!stock.getBatch().isEmpty()) {
+        if (!stock.getBatch().isBlank()) {
             toBeUpdated.setBatch(stock.getBatch());
         }
         if (stock.getManufactureDate() != null) {
@@ -58,13 +59,15 @@ public class StockService {
     }
 
     public StockResponse addQuantity(Long id, int quantity) {
-        Stock toBeUpdated = stockRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Stock with id %s not found", id)));
+        Stock toBeUpdated = stockRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Stock with id " + id + " not found"));
         toBeUpdated.setQuantity(toBeUpdated.getQuantity() + quantity);
         return StockResponse.of(stockRepository.save(toBeUpdated));
     }
 
     public StockResponse reduceQuantity(Long id, int quantity) {
-        Stock toBeUpdated = stockRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("Stock with id %s not found", id)));
+        Stock toBeUpdated = stockRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Stock with id " + id + " not found"));
         toBeUpdated.setQuantity(toBeUpdated.getQuantity() - quantity);
         return StockResponse.of(stockRepository.save(toBeUpdated));
     }

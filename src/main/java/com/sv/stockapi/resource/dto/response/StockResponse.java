@@ -11,8 +11,12 @@ import java.time.LocalDate;
 public class StockResponse {
 
     private Long id;
-    private Supply supply;
-    private Supplier supplier;
+    private String supplyName;
+    private String supplyDescription;
+    private String supplyAmount;
+    private String supplyUnit;
+    private String supplyManufacturerName;
+    private String supplierName;
     private String batch;
     private int quantity;
     private LocalDate manufactureDate;
@@ -21,8 +25,12 @@ public class StockResponse {
     public static StockResponse of(Stock stock) {
         var stockResponse = new StockResponse();
         stockResponse.setId(stock.getId());
-        stockResponse.setSupply(stock.getSupply());
-        stockResponse.setSupplier(stock.getSupplier());
+        stockResponse.setSupplyName(stock.getSupply().getName());
+        stockResponse.setSupplyDescription(stock.getSupply().getDescription());
+        stockResponse.setSupplyAmount(stock.getSupply().getAmount());
+        stockResponse.setSupplyUnit(stock.getSupply().getUnit());
+        stockResponse.setSupplyManufacturerName(stock.getSupply().getManufacturer().getName());
+        stockResponse.setSupplierName(stock.getSupplier().getName());
         stockResponse.setBatch(stock.getBatch());
         stockResponse.setQuantity(stock.getQuantity());
         stockResponse.setManufactureDate(stock.getManufactureDate());

@@ -6,11 +6,13 @@ import com.sv.stockapi.resource.dto.request.supplier.UpdateSupplierRequest;
 import com.sv.stockapi.resource.dto.response.SupplierResponse;
 import com.sv.stockapi.service.SupplierService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/supplier")
@@ -20,8 +22,8 @@ public class SupplierResource {
     private final SupplierService supplierService;
 
     @GetMapping
-    public List<SupplierResponse> findAll() {
-        return supplierService.findAll();
+    public Page<SupplierResponse> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        return supplierService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

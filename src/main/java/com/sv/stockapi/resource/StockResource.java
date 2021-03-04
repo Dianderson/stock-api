@@ -7,11 +7,13 @@ import com.sv.stockapi.resource.dto.request.stock.UpdateStockRequest;
 import com.sv.stockapi.resource.dto.response.StockResponse;
 import com.sv.stockapi.service.StockService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/stock")
@@ -21,8 +23,8 @@ public class StockResource {
     private final StockService stockService;
 
     @GetMapping
-    public List<StockResponse> findAll() {
-        return stockService.findAll();
+    public Page<StockResponse> findAll(@PageableDefault(sort = "supplyName") Pageable pageable) {
+        return stockService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

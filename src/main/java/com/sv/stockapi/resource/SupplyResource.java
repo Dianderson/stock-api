@@ -6,11 +6,13 @@ import com.sv.stockapi.resource.dto.request.supply.UpdateSupplyRequest;
 import com.sv.stockapi.resource.dto.response.SupplyResponse;
 import com.sv.stockapi.service.SupplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/supply")
@@ -20,8 +22,8 @@ public class SupplyResource {
     private final SupplyService supplyService;
 
     @GetMapping
-    public List<SupplyResponse> findAll() {
-        return supplyService.findAll();
+    public Page<SupplyResponse> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        return supplyService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

@@ -1,10 +1,10 @@
 package com.sv.stockapi.repository;
 
 import com.sv.stockapi.repository.model.Manufacturer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
 public interface ManufacturerRepository extends CrudRepository<Manufacturer, Long> {
-    List<Manufacturer> findAll();
+    Page<Manufacturer> findAll(Pageable pageable);
 }
